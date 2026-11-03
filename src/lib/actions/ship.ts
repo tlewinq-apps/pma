@@ -5,7 +5,7 @@
 // hears it shipped in their own thread. The route syncs the Slack card. The demo app never gets here.
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { serviceDb } from "@/lib/db/server";
-import { SHIP_NEEDS_PR, SHIP_NOT_READY } from "@/lib/handoff/build";
+import { SHIP_ALREADY, SHIP_NEEDS_PR, SHIP_NOT_READY } from "@/lib/handoff/build";
 import type { ActionResult } from "./approve";
 
 export async function markShipped(issueId: string, userId: string | null, db: SupabaseClient = serviceDb(), opts: { via?: "github"; prNumber?: number } = {}): Promise<ActionResult> {
@@ -13,6 +13,8 @@ export async function markShipped(issueId: string, userId: string | null, db: Su
   if (!issue) return { ok: false, status: 404, error: "not found" };
   const kind = (issue as { projects?: { kind?: string } | null }).projects?.kind;
   if (kind === "demo") return { ok: false, status: 409, error: "The demo app ships when its mock-up is approved." };
+  // Shipped already is its own answer: a merge on GitHub ships it on its own, often while someone has the page open.
+  if (issue.status === "shipped") return { ok: false, status: 409, error: SHIP_ALREADY };
   if (issue.status !== "ready_to_build") return { ok: false, status: 409, error: SHIP_NOT_READY };
   const { data: links } = await db.from("pull_request_links").select("id, url, number, repo, state, created_at").eq("issue_id", issueId).order("created_at", { ascending: false });
   const all = (links ?? []) as { url: string; number: number; repo: string }[];
@@ -37,7 +39,7 @@ export async function markShipped(issueId: string, userId: string | null, db: Su
   if (error || !moved?.length) {
     const { data: now, error: readError } = await db.from("issues").select("status").eq("id", issueId).maybeSingle();
     if (readError) return failed; // can't tell whether someone else shipped it, so the links stay as they are
-    if (now?.status === "shipped") return { ok: false, status: 409, error: SHIP_NOT_READY }; // someone else shipped it first
+    if (now?.status === "shipped") return { ok: false, status: 409, error: SHIP_ALREADY }; // someone else shipped it first
     const { error: revertError } = await db.from("pull_request_links").update({ state: "open" }).eq("issue_id", issueId).eq("state", "merged");
     if (revertError) console.error("[ship] it didn't ship, and its links couldn't be put back to open", issueId, revertError.message);
     return error ? failed : { ok: false, status: 409, error: SHIP_NOT_READY };

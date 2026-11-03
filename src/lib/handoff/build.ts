@@ -95,6 +95,9 @@ export const LINK_FORBIDDEN = "Only company owners and admins, or the person who
 export const SHIP_FORBIDDEN = "Only company owners and admins can mark an issue shipped.";
 export const SHIP_NEEDS_PR = "Link the pull request first. An issue ships when its pull request merges.";
 export const SHIP_NOT_READY = "Only an issue that is ready to build can be marked shipped.";
+/** Mark as shipped on an issue that shipped meanwhile: its pull request merged on GitHub (the PMA GitHub App's webhook
+ *  ships it on its own) or someone else marked it while the page was open. The page refreshes to show it shipped. */
+export const SHIP_ALREADY = "This issue has shipped already: its pull request merged on GitHub, or someone else marked it.";
 /** One line beside the Mark as shipped button, which notifies the reporters: when to press it, and who hears. */
 export const SHIP_NOTE = "Once it has merged. Everyone who raised it in Slack is told it shipped.";
 /** The sentence the Mark as shipped confirm asks. */

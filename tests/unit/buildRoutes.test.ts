@@ -82,7 +82,7 @@ import { POST as handedOff } from "@/app/api/issues/[id]/handoff/route";
 import { POST as approve } from "@/app/api/issues/[id]/approve/route";
 import { PUT as putBuild } from "@/app/api/apps/[appId]/build/route";
 import { LINK_AFTER_APPROVAL, LINK_DISMISSED, LINK_SHIPPED, notReadyToLink } from "@/lib/api/prLinks";
-import { BUILD_UNAVAILABLE, LINK_FORBIDDEN, PR_ALREADY_LINKED, PR_URL_INVALID, PREVIEW_INVALID, prWrongRepo, SHIP_FORBIDDEN, SHIP_NEEDS_PR, SHIP_NOT_READY } from "@/lib/handoff/build";
+import { BUILD_UNAVAILABLE, LINK_FORBIDDEN, PR_ALREADY_LINKED, PR_URL_INVALID, PREVIEW_INVALID, prWrongRepo, SHIP_ALREADY, SHIP_FORBIDDEN, SHIP_NEEDS_PR, SHIP_NOT_READY } from "@/lib/handoff/build";
 
 const ISSUE = "11111111-1111-4111-8111-111111111111";
 const APP = "e5123994-2425-4415-8d88-105b998592b2";
@@ -224,11 +224,25 @@ describe("Mark as shipped", () => {
     expect(h.tables.activity.at(-1)).toMatchObject({ kind: "shipped", user_id: ME, payload: { manual: true, pr_url: PR, pr_number: 42 } });
     expect(h.told).toEqual([ISSUE]);
     expect(h.synced).toEqual([ISSUE]);
-    // Pressed again: it already shipped.
+    // Pressed again: it already shipped, and says so.
     const again = await press();
     expect(again.status).toBe(409);
-    expect((await again.json()).error).toBe(SHIP_NOT_READY);
+    expect((await again.json()).error).toBe(SHIP_ALREADY);
     expect(h.told).toEqual([ISSUE]);
+  });
+
+  it("says it has shipped already when its merge on GitHub shipped it while the page was open, and writes nothing", async () => {
+    await link({ url: PR });
+    h.tables.issues[0].status = "shipped"; // the PMA GitHub App's webhook, on the merge
+    const writes = h.writes.length;
+    const res = await press();
+    expect(res.status).toBe(409);
+    expect((await res.json()).error).toBe(SHIP_ALREADY);
+    expect(h.writes.length).toBe(writes);
+    expect(h.told).toEqual([]);
+    // Any other status still gets the plain refusal.
+    h.tables.issues[0].status = "drafting";
+    expect((await (await press()).json()).error).toBe(SHIP_NOT_READY);
   });
 
   it("marks the links merged before the status flips: if that write fails, nothing has changed", async () => {
@@ -256,7 +270,9 @@ describe("Mark as shipped", () => {
     // Someone else shipped it first: their merged links stay.
     h.tables.issues[0].status = "ready_to_build";
     h.onUpdate = (table) => { if (table === "issues") h.tables.issues[0].status = "shipped"; };
-    expect((await press()).status).toBe(409);
+    const lost = await press();
+    expect(lost.status).toBe(409);
+    expect((await lost.json()).error).toBe(SHIP_ALREADY);
     expect(h.tables.pull_request_links[0].state).toBe("merged");
     expect(h.tables.activity.filter((a) => a.kind === "shipped")).toEqual([]);
     expect(h.told).toEqual([]);

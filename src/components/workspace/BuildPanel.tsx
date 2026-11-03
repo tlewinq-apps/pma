@@ -6,7 +6,7 @@ import { Check, ExternalLink, GitPullRequest, Loader2, RotateCw, TriangleAlert }
 import type { IssueDetail } from "@/lib/queries/issueDetail";
 import { useApp } from "@/components/app/AppContext";
 import { timeAgo } from "@/components/triage/format";
-import { BUILD_VERB, buildProgress, prName, SHIP_CONFIRM, SHIP_NOTE, type BuildProgress, type BuildView, type PullRequestLink } from "@/lib/handoff/build";
+import { BUILD_VERB, buildProgress, prName, SHIP_ALREADY, SHIP_CONFIRM, SHIP_NOTE, type BuildProgress, type BuildView, type PullRequestLink } from "@/lib/handoff/build";
 import { Disclosure } from "@/components/ui/disclosure";
 import { HandoffButton } from "./HandoffButton";
 import { livePreviewOf } from "./LivePreview";
@@ -222,7 +222,8 @@ export function BuildPanel({ d, me, now, solutionId, solutionTitle, zip, live = 
     setBusy("ship"); setError(null);
     const r = await send("POST", "ship");
     setBusy(null);
-    if (!r.ok) setError(r.error ?? null); else router.refresh();
+    // Shipped meanwhile (its merge on GitHub ships it on its own): nothing went wrong, the page was behind, so show it.
+    if (r.ok || r.error === SHIP_ALREADY) router.refresh(); else setError(r.error ?? null);
   };
 
   const linkButton = (label: string, style: "primary" | "quiet") => mayLink && !linking && (
