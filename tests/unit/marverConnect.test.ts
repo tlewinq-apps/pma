@@ -40,7 +40,7 @@ describe("checking the canvas", () => {
   });
 
   it("says what to do when there's no canvas, a broken manifest or no frames", async () => {
-    expect(await checkCanvas(loc, async () => fakeSnap({}))).toEqual({ ok: false, error: expect.stringMatching(/no design\/manifest\.json .*npx marver init/) });
+    expect(await checkCanvas(loc, async () => fakeSnap({}))).toEqual({ ok: false, error: expect.stringMatching(/no canvas \(design\/manifest\.json\).*npm i -D @marver-design\/marver, then npx marver init/) });
     // The repository's name ends in "." here, so no punctuation may follow it directly.
     const missing = await checkCanvas(loc, async () => fakeSnap({}));
     expect(missing.ok ? "" : missing.error).toContain("in acme/Closet. yet.");

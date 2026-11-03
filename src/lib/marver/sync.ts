@@ -35,7 +35,7 @@ export async function syncScreens(projectId: string): Promise<{ count: number; f
   if (!p) throw new Error("Project not found");
   const { reader, designPath } = readerFor(p, await canvasFor(projectId, db));
   const manifestRaw = await reader.read(`${designPath}/manifest.json`);
-  if (!manifestRaw) throw new Error(`No ${designPath}/manifest.json in ${reader.label} — run \`npx marver dev\` once and commit design/`);
+  if (!manifestRaw) throw new Error(`No ${designPath}/manifest.json in ${reader.label} — install @marver-design/marver, run \`npx marver init\` and \`npx marver dev\` once, and commit ${designPath}/`);
   let manifest: unknown;
   try { manifest = JSON.parse(manifestRaw); } catch { throw new Error(`${designPath}/manifest.json is not valid JSON`); }
   const frames = parseManifest(manifest).filter((f) => !isArchivedScene(f.scene) && !isProposalScene(f.scene) && !f.id.startsWith("components/"));

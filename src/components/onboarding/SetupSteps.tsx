@@ -173,8 +173,20 @@ export function stepContent(key: SetupStepKey, c: StepContext): Content {
       const mv = card(c, "marver");
       return {
         title: "Connect Marver", done, doneText: mv?.repo ? `Mock-ups draw on ${mv.repo}` : "Marver is connected",
-        lead: <>Your design canvas. With it, mock-ups are drawn on your real screens; without it, PMA draws an approximate one from your code.</>,
-        children: <ToolStep c={c} tool="marver" />,
+        lead: <>Marver is a free, open-source design canvas that lives in a <code className="text-foreground">design/</code> folder of your repository. With one, mock-ups are drawn on your real screens. Without one, PMA draws an approximate mock-up from your code, so this step can wait.</>,
+        children: (
+          <>
+            <ToolStep c={c} tool="marver" />
+            {!done && toolsUnlocked(c.state) && (
+              <div className="mt-6">
+                <h2 className="font-heading text-lg font-semibold text-foreground">No canvas yet?</h2>
+                <p className="mt-1">Make one in your repository (Node 22.18 or newer), open it once, and commit the <code className="text-foreground">design</code> folder:</p>
+                <code className="mt-2 block overflow-x-auto whitespace-pre rounded-lg bg-muted p-3 text-xs">{"npm i -D @marver-design/marver\nnpx marver init\nnpx marver dev"}</code>
+                <p className="mt-2 text-sm text-muted-foreground">Then come back and look for it again. <a href="https://marver.design" target="_blank" rel="noreferrer" className="link inline-flex items-center gap-1">About Marver<ExternalLink aria-hidden className="size-3.5" /></a></p>
+              </div>
+            )}
+          </>
+        ),
       };
     }
 

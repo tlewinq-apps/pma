@@ -284,16 +284,16 @@ function MarverBody({ card, canEdit, setNote }: BodyProps<"marver">) {
         <input name="branch" aria-label="Branch" placeholder="Branch" autoComplete="off" spellCheck={false} className="w-28 field px-2.5 py-1.5 text-sm outline-none" />
         <Button type="submit" size="sm" disabled={busy}>{busy ? <Loader2 aria-hidden className="animate-spin" /> : null}{CONNECT.marver}</Button>
       </div>
-      <p className="text-xs text-muted-foreground">{card.appRepo ? `Leave the repository empty to use ${card.appRepo} as well, and the folder empty for design.` : "Name the repository that holds the canvas."} Creating a canvas from your own components comes next.</p>
+      <p className="text-xs text-muted-foreground">{card.appRepo ? `Leave the repository empty to use ${card.appRepo} as well, and the folder empty for design.` : "Name the repository that holds the canvas."}</p>
     </form>
   );
   const quick = card.appRepo && (
     <div className="grid gap-2">
       <Button type="button" size="sm" className="w-fit" disabled={busy} onClick={() => post({})}>
-        {busy ? <Loader2 aria-hidden className="animate-spin" /> : null}Use the canvas in {card.appRepo}/design
+        {busy ? <Loader2 aria-hidden className="animate-spin" /> : null}Look for a canvas in {card.appRepo}/design
       </Button>
       <p className="text-xs text-muted-foreground">
-        Reads the design folder of your connected repository. <button type="button" className="link" onClick={() => setCustom(true)}>Use another repository or folder</button>. Creating a canvas from your own components comes next.
+        Checks the design folder of your connected repository, where Marver keeps a canvas. <button type="button" className="link" onClick={() => setCustom(true)}>Use another repository or folder</button>.
       </p>
     </div>
   );

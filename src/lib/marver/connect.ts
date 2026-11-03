@@ -40,7 +40,7 @@ export async function checkCanvas(
   if (!snap) return { ok: false, error: REPO_MESSAGES[await unreadableReason(loc.repo, { orgId }).catch(() => "repo_private" as const)] };
   const raw = snap.read(`${loc.path}/manifest.json`);
   // A repository name can end in "." (acme/Closet.), so no punctuation follows it directly.
-  if (!raw) return { ok: false, error: `PMA found no ${loc.path}/manifest.json in ${loc.repo} yet. Run npx marver init in the repository, open the canvas once, and commit the ${loc.path} folder.` };
+  if (!raw) return { ok: false, error: `PMA found no canvas (${loc.path}/manifest.json) in ${loc.repo} yet. To make one, run npm i -D @marver-design/marver, then npx marver init and npx marver dev in the repository, and commit the ${loc.path} folder.` };
   let json: unknown;
   try { json = JSON.parse(raw); } catch { return { ok: false, error: `${loc.path}/manifest.json isn't valid JSON.` }; }
   const frames = parseManifest(json).filter((f) => !isArchivedScene(f.scene) && !isProposalScene(f.scene) && !f.id.startsWith("components/"));

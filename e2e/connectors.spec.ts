@@ -110,7 +110,7 @@ test.describe("connectors on fakes", () => {
       await page.goto(`${welcome}?step=${tool}`);
       await expect(step.getByRole("link", { name })).toBeVisible();
     }
-    for (const [tool, name] of [["marver", "Use the canvas in e2e-fake/canvas/design"], ["granola", "Connect to Granola"]]) {
+    for (const [tool, name] of [["marver", "Look for a canvas in e2e-fake/canvas/design"], ["granola", "Connect to Granola"]]) {
       await page.goto(`${welcome}?step=${tool}`);
       await expect(step.getByRole("button", { name })).toBeVisible();
     }
@@ -184,7 +184,7 @@ test.describe("connectors on fakes", () => {
     const card = page.getByRole("region", { name: "Marver" });
     // The app's repository is e2e-fake/canvas (the Claude key test set it), so its design folder is one click.
     await expect(card.getByLabel("Repository with the canvas")).toHaveCount(0);
-    await card.getByRole("button", { name: "Use the canvas in e2e-fake/canvas/design" }).click();
+    await card.getByRole("button", { name: "Look for a canvas in e2e-fake/canvas/design" }).click();
     await expect(card.getByText("Connected. 1 screens and 0 flows synced.")).toBeVisible({ timeout: 60_000 });
     await expect(card.getByText("Connected", { exact: true })).toBeVisible();
     const { data: screens } = await db().from("screens").select("frame_id, title").eq("project_id", OTHER_ORG_APP_ID);
