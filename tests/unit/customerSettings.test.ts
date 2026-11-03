@@ -29,7 +29,7 @@ const headings = (html: string) => [...html.matchAll(/<h2[^>]*>([^<]+)/g)].map((
 describe("SettingsForm", () => {
   it("keeps the demo's GitHub & Marver card, with the draft-workflow note, and its legacy Slack webhook card", () => {
     const html = settings(true);
-    for (const heading of ["GitHub & Marver", "Widget", "Slack webhook (legacy)", "API"]) expect(text(html), heading).toContain(heading);
+    for (const heading of ["GitHub & Marver", "Widget", "Slack webhook (legacy)", "Use PMA from Claude"]) expect(text(html), heading).toContain(heading);
     expect(text(html)).toContain("Repository: acme/app. Connecting a repository moves to GitHub setup in a coming update.");
     expect(html).toContain('aria-label="Design path"');
     expect(html).toContain('aria-label="Watched branch"');
@@ -37,21 +37,22 @@ describe("SettingsForm", () => {
     expect(text(html)).toContain("Not used while the Slack app above is connected.");
   });
 
-  it("shows a customer app only the Widget and API cards: no old GitHub & Marver card, no retired workflow, no legacy webhook", () => {
+  it("shows a customer app only the Widget and Use PMA from Claude cards: no old GitHub & Marver card, no retired workflow, no legacy webhook", () => {
     const html = settings(false);
-    expect(headings(html)).toEqual(["Widget", "API"]);
+    expect(headings(html)).toEqual(["Widget", "Use PMA from Claude"]);
     const t = text(html);
     expect(t).not.toMatch(/GitHub & Marver|github-template|pma-draft|draft workflow|\.github\/workflows|ANTHROPIC_API_KEY/i);
     expect(t).not.toMatch(/Slack webhook|legacy|Sync screens now|Not used while the Slack app/i);
     expect(html).not.toContain('aria-label="Design path"');
     expect(html).not.toContain('aria-label="Watched branch"');
     expect(html).not.toContain("hooks.slack.com");
-    expect(t).toContain("API key: abc123");
+    // The key's first characters only: the page never ships the key itself.
+    expect(t).toContain("it starts abc123");
   });
 
   it("shows a customer app the legacy Slack webhook card only while it has a saved webhook, so it can be cleared", () => {
     const html = settings(false, HOOK);
-    expect(headings(html)).toEqual(["Widget", "Slack webhook (legacy)", "API"]);
+    expect(headings(html)).toEqual(["Widget", "Slack webhook (legacy)", "Use PMA from Claude"]);
     expect(html).toContain(`value="${HOOK}"`);
     expect(html).toContain('name="hook"');
     expect(text(html)).toContain("Clear the address and save to remove it; Slack under Connections replaces it.");
@@ -60,13 +61,13 @@ describe("SettingsForm", () => {
     // Still no GitHub & Marver card or retired instructions.
     expect(text(html)).not.toMatch(/GitHub & Marver|github-template|ANTHROPIC_API_KEY|Sync screens now/i);
     // A cleared webhook (null or an empty string) takes the card away again.
-    for (const cleared of [null, ""]) expect(headings(settings(false, cleared)), JSON.stringify(cleared)).toEqual(["Widget", "API"]);
+    for (const cleared of [null, ""]) expect(headings(settings(false, cleared)), JSON.stringify(cleared)).toEqual(["Widget", "Use PMA from Claude"]);
   });
 
   it("keeps the demo's webhook card whether or not a webhook is saved, with its own words", () => {
     for (const saved of [null, HOOK]) {
       const html = settings(true, saved);
-      expect(headings(html), String(saved)).toEqual(["GitHub & Marver", "Widget", "Slack webhook (legacy)", "API"]);
+      expect(headings(html), String(saved)).toEqual(["GitHub & Marver", "Widget", "Slack webhook (legacy)", "Use PMA from Claude"]);
       expect(text(html)).toContain("Posts quick-win alerts to one channel. Not used while the Slack app above is connected.");
       expect(text(html)).not.toContain("Clear the address");
     }

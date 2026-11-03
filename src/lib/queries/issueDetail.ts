@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { userDb } from "@/lib/db/server";
 import { ISSUE_TYPES, type IssueType } from "@/lib/types";
 import type { Emotion } from "@/components/triage/format";
@@ -89,9 +90,14 @@ export function parseIssuePatch(body: unknown): { assign?: "me" | null; type?: I
   return out;
 }
 
-export async function getIssueDetail(id: string): Promise<IssueDetail | null> {
-  const db = await userDb();
-  const { data: i, error } = await db.from("issues").select(`
+/**
+ * One issue with everything its page shows. Signed in, RLS keeps the reader in their company. An API key's app
+ * (lib/api/auth: the MCP server) passes `service`, the service client and the app the key belongs to: RLS doesn't
+ * apply to that client, so the query itself is scoped to the app, and member emails come from service_member_emails.
+ */
+export async function getIssueDetail(id: string, service?: { db: SupabaseClient; projectId: string }): Promise<IssueDetail | null> {
+  const db = service?.db ?? await userDb();
+  let q = db.from("issues").select(`
     id, short_id, title, problem_statement, type, lane, status, importance, ease, people_count, decision, score_breakdown, owner_id, project_id, followups, diagnosis,
     projects(repo_full_name, design_path, score_weights, kind, product_profile, name, settings),
     jobs(code, title, current_flow_md),
@@ -102,11 +108,14 @@ export async function getIssueDetail(id: string): Promise<IssueDetail | null> {
     activity(id, kind, user_id, payload, at),
     pull_request_links(id, url, repo, number, state, preview_url, linked_by, created_at),
     builds(id, mode, status, steps, files, error, pr_url, pr_number, head_branch, base_branch, created_at, updated_at)
-  `).eq("id", id).single();
+  `).eq("id", id);
+  if (service) q = q.eq("project_id", service.projectId);
+  const { data: i, error } = await q.single();
   if (error && error.code !== "PGRST116") throw new Error(error.message);
   if (!i) return null;
-  const { data: people, error: peopleError } = await db.rpc("project_member_emails", { p_project: (i as any).project_id });
-  if (peopleError) throw new Error(`project_member_emails: ${peopleError.message}`);
+  const emails = service ? "service_member_emails" : "project_member_emails";
+  const { data: people, error: peopleError } = await db.rpc(emails, { p_project: (i as any).project_id });
+  if (peopleError) throw new Error(`${emails}: ${peopleError.message}`);
   const emailById = new Map(((people ?? []) as { user_id: string; email: string }[]).map((p) => [p.user_id, p.email]));
   const x = i as any;
   const { data: screenRows, error: screenError } = await db.from("screens").select("frame_id, title").eq("project_id", x.project_id).order("frame_id");

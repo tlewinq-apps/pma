@@ -12,7 +12,7 @@ import { notFoundResponse } from "@/lib/api/guards";
 import { serviceDb, userDb } from "@/lib/db/server";
 import { env } from "@/lib/env";
 import { getIssueDetail } from "@/lib/queries/issueDetail";
-import { buildHandoffTask, handoffFilename, pickHandoffProposal, type HandoffInput } from "@/lib/handoff/task";
+import { buildHandoffTask, handoffFilename, handoffInputFor, pickHandoffProposal } from "@/lib/handoff/task";
 import { buildHandoffZip } from "@/lib/handoff/bundle";
 
 export const maxDuration = 30;
@@ -29,17 +29,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const proposal = pickHandoffProposal(d.solutions, url.searchParams.get("solution"), d.draft?.solution_id ?? null);
   if (!proposal) return NextResponse.json({ error: "Write or pick a proposal first." }, { status: 409 });
 
-  const finding = d.diagnosis?.status === "done" ? d.diagnosis.finding ?? null : null;
-  // The ref the first step read the code at, when it read any; otherwise the branch the app watches.
-  const ref = finding?.source?.read ? finding.source.ref : ctx.project.repo_full_name ? ctx.project.watched_branch || null : null;
+  const task = handoffInputFor(d, ctx.project, proposal);
   // The mock-up of this proposal, when it has one.
   const draft = d.draft && d.draft.solution_id === proposal.id ? d.draft : null;
-  const drafted = draft ? draft.frames.map((f) => f.changed).filter((c): c is string => !!c) : [];
-  const task: HandoffInput = {
-    short_id: d.short_id, title: d.title, problem: d.problem_statement, quotes: d.quotes.map((q) => q.quote), type: d.type,
-    finding, proposal: { title: proposal.title, summary: proposal.summary, tradeoffs: proposal.tradeoffs },
-    repo: ctx.project.repo_full_name, ref, mockup: drafted.length ? { changed: drafted } : null, profile: d.project.profile,
-  };
 
   if (url.searchParams.get("format") === "zip") {
     // A finished mock-up's shots and layout code; the frame code is read here (the page's query leaves it out).

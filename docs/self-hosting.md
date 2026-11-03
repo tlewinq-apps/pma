@@ -82,6 +82,16 @@ PMA_ALLOW_PROD=1 node --env-file=.env.prod.local --import tsx scripts/create-use
 PMA_ALLOW_PROD=1 node --env-file=.env.prod.local --import tsx scripts/seed-snapshot.ts
 ```
 
+## 8. Use PMA from Claude
+
+The MCP server needs no setup of its own: it is the route `/api/mcp` on your deployment, and the app's API key picks the app, as it does for `/api/v1`. Owners and admins copy the command, key included, from **Settings > Use PMA from Claude**. With a placeholder key it looks like this:
+
+```bash
+claude mcp add --transport http pma https://<your-app>.vercel.app/api/mcp --header "Authorization: Bearer YOUR_PMA_API_KEY"
+```
+
+The endpoint shown in Settings comes from `APP_URL`, so set that to the address people use. The server only answers requests: intake still runs in the app, so keep the `pma-process` job (step 3) and the GitHub and Slack webhooks (steps 4 and 5) in place.
+
 ## Limits of the free plans
 
 - **Supabase Free** pauses a project after about a week without activity. The `pma-process` job counts as activity.

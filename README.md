@@ -50,6 +50,25 @@ To put a copy online for your team (Vercel, a production Supabase project, the G
 - **Add feedback**: paste a transcript, drop files, or transcribe one of the bundled sample recordings. New issues appear on the Desk a minute or two later.
 - **Set up your own company**: on `/no-company`, then **Start here** walks through adding your Claude key and connecting your GitHub repository, Slack, Sentry, PostHog, Granola and Marver.
 
+## Use PMA from Claude
+
+PMA has an MCP server, so people can work with the backlog from Claude. A PM asks what's most urgent, what customers said about an issue and where it sits in the code, or hands Claude notes from a call to file. An engineer pulls an approved issue into Claude Code, builds it in their own checkout and runs their own tests, which **Build it** can't do; the pull request still links back to the issue and ships it when it merges.
+
+The endpoint is `https://<your-pma>/api/mcp`, and the app's API key picks the app. Owners and admins copy the command, key included, from **Settings > Use PMA from Claude**:
+
+```bash
+claude mcp add --transport http pma https://<your-pma>/api/mcp --header "Authorization: Bearer YOUR_PMA_API_KEY"
+```
+
+| Tool | What it does |
+| --- | --- |
+| `list_issues` | Open issues ranked as the Desk ranks them, with type, urgency, people reached and stage. Filter by type, set a limit. |
+| `get_issue` | One issue by short id or link: the problem, quotes (never emails), the finding with its file:line evidence, the proposals and the mock-up's status. |
+| `add_feedback` | Queues feedback the way `POST /api/v1/feedback` does; it shows up on the Desk a minute or two later. |
+| `get_build_task` | For an issue whose mock-up is approved: the same task as **Copy task for Claude Code**, ending with its `PMA: <short id>` line. Pulling it counts as the hand-off. |
+
+The server only answers requests. Intake (Slack, Sentry, Granola, the widget, cron), the Desk, mock-ups and approvals all keep running in the app. Text that came from feedback is handed to Claude as evidence, never as instructions.
+
 ## Scripts
 
 | Command | What it does |
@@ -79,6 +98,7 @@ The maintenance scripts refuse to run against the project named by `PMA_PROD_SUP
 | `src/lib/pipeline`, `src/lib/ingest` | Feedback in: parsing, extraction, grouping, scoring |
 | `src/lib/diagnosis`, `src/lib/proposals.ts`, `src/lib/drafts`, `src/lib/marver` | First steps, proposals and mock-ups |
 | `src/lib/build`, `src/lib/github`, `src/lib/handoff` | Build it (Claude writes the change, the GitHub App opens the pull request), See it live, the Claude Code hand-off |
+| `src/lib/mcp`, `src/app/api/mcp` | The MCP server for Claude, scoped to an app's API key |
 | `src/lib/slack`, `src/lib/sentry`, `src/lib/posthog`, `src/lib/granola`, `src/lib/connections` | Connectors |
 | `src/components` | UI, grouped by screen |
 | `tests/unit`, `tests/rls`, `e2e` | Unit tests, row-level security tests, Playwright |

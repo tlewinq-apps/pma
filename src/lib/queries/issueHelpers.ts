@@ -101,7 +101,8 @@ export function describeActivity(a: { kind: string; payload?: Record<string, unk
       return typeof p.pr_url === "string" && p.pr_url.startsWith("https://") ? { text: "approved and merged", href: p.pr_url, linkLabel: "PR" } : { text: "approved and merged" };
     case "changes_requested": return { text: withDetail("requested changes", p.note) };
     // After an approved mock-up: the hand-off, the pull request that builds it, its preview, and shipping it by hand.
-    case "handed_off": return { text: p.via === "download" ? "downloaded the task for Claude Code, with the mock-up images" : "copied the task for Claude Code" };
+    // "mcp": an engineer's Claude Code pulled the task through PMA's MCP server (get_build_task), signed in as nobody.
+    case "handed_off": return { text: p.via === "download" ? "downloaded the task for Claude Code, with the mock-up images" : p.via === "mcp" ? "task pulled into Claude Code through PMA's MCP server" : "copied the task for Claude Code" };
     case "pr_linked": return { text: p.via === "marker" ? `pull request #${str(p.pr_number)} linked itself with its PMA line` : `linked pull request #${str(p.pr_number)}`, ...(httpsGithub(p.pr_url) ? { href: str(p.pr_url), linkLabel: "PR" } : {}) };
     case "build_opened": return { text: `built it with Claude and opened pull request #${str(p.pr_number)}`, ...(httpsGithub(p.pr_url) ? { href: str(p.pr_url), linkLabel: "PR" } : {}) };
     case "pr_unlinked": return { text: `removed the link to pull request #${str(p.pr_number)}` };

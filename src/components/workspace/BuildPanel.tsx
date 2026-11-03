@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Check, ExternalLink, GitPullRequest, Loader2, RotateCw, TriangleAlert } from "lucide-react";
 import type { IssueDetail } from "@/lib/queries/issueDetail";
@@ -10,6 +11,7 @@ import { Disclosure } from "@/components/ui/disclosure";
 import { HandoffButton } from "./HandoffButton";
 import { livePreviewOf } from "./LivePreview";
 import type { LiveView } from "@/lib/github/live";
+import { CLAUDE_CARD_ID, pullTaskLine } from "@/lib/mcp/connect";
 
 const primary = "inline-flex h-10 items-center justify-center gap-2 rounded-lg px-4 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:opacity-60";
 const quiet = "inline-flex items-center gap-1.5 text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline";
@@ -169,7 +171,7 @@ export function BuildPanel({ d, me, now, solutionId, solutionTitle, zip, live = 
   live?: LiveView | null;
 }) {
   const router = useRouter();
-  const { role } = useApp();
+  const { role, href } = useApp();
   const p = buildProgress(d);
   const admin = role === "owner" || role === "admin";
   const mayLink = admin || (!!me && !!d.owner_email && d.owner_email === me);
@@ -269,6 +271,8 @@ export function BuildPanel({ d, me, now, solutionId, solutionTitle, zip, live = 
           {form}
           {more("What the task holds", <>
             <p>What people said, what PMA found, the files to start from and how to check it, with the approved mock-up. Download task adds its images (today.png and proposed.png) and its layout code. Your engineers build it, and the pull request comes back here.</p>
+            {/* The same task through PMA's MCP server (lib/mcp), for an engineer already in Claude Code. */}
+            <p>{pullTaskLine(d.short_id)} <Link href={href(`/settings#${CLAUDE_CARD_ID}`)} className="text-foreground underline-offset-4 hover:underline">Connect Claude</Link></p>
             {how}
             {mayLink && !linking && <p>{linkButton("Already have the pull request? Link it", "quiet")}</p>}
           </>)}

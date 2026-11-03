@@ -39,4 +39,4 @@ function signInUrl(req: NextRequest): URL {
 // Paths skipped here never reach the proxy, so each must be public in isPublicPath() (src/lib/auth.ts;
 // tests/unit/auth.test.ts checks). /invite and /join are public but not skipped: the proxy refreshes their session and
 // signedOutResponse lets signed-out visitors through. Must be a static literal for Next.
-export const config = { matcher: ["/((?!(?:sign-in|auth|api/widget|api/cron|api/github/webhook|api/drafts/callback|api/v1|api/slack/events|api/slack/interactions|api/granola/webhook|oauth/posthog-client\\.json)(?:/|$)|widget\\.js$|favicon\\.ico$|_next/).*)"] };
+export const config = { matcher: ["/((?!(?:sign-in|auth|api/widget|api/cron|api/github/webhook|api/drafts/callback|api/v1|api/mcp|api/slack/events|api/slack/interactions|api/granola/webhook|oauth/posthog-client\\.json)(?:/|$)|widget\\.js$|favicon\\.ico$|_next/).*)"] };

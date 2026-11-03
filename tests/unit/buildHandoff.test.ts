@@ -141,6 +141,7 @@ describe("the page's words for each step", () => {
     expect(describeActivity({ kind: "approved", payload: { approximate: true, build: "claude_code" } }).text).toBe("approved the mock-up, to hand off to Claude Code");
     expect(describeActivity({ kind: "handed_off", payload: { via: "copy" } }).text).toBe("copied the task for Claude Code");
     expect(describeActivity({ kind: "handed_off", payload: { via: "download" } }).text).toBe("downloaded the task for Claude Code, with the mock-up images");
+    expect(describeActivity({ kind: "handed_off", payload: { via: "mcp" } }).text).toBe("task pulled into Claude Code through PMA's MCP server");
     expect(describeActivity({ kind: "pr_linked", payload: { pr_number: 42, pr_url: "https://github.com/a/b/pull/42" } })).toEqual({ text: "linked pull request #42", href: "https://github.com/a/b/pull/42", linkLabel: "PR" });
     expect(describeActivity({ kind: "pr_linked", payload: { pr_number: 42, pr_url: "javascript:alert(1)" } })).toEqual({ text: "linked pull request #42" });
     expect(describeActivity({ kind: "preview_added", payload: { pr_number: 42, preview_url: "https://x.vercel.app/" } })).toMatchObject({ text: "added a preview of pull request #42", href: "https://x.vercel.app/" });

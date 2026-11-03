@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { userDb } from "@/lib/db/server";
 import { SCOPE_VALUE, type IssueStatus, type IssueType, type Lane, type Scope } from "@/lib/types";
 import type { Emotion } from "@/components/triage/format";
@@ -33,8 +34,13 @@ function flowLabel(screens: any[]): string | null {
   return scene && end ? `${scene} › ${end}` : null;
 }
 
-export async function listIssues(projectId: string, now = Date.now()): Promise<IssueCardData[]> {
-  const db = await userDb();
+/**
+ * The app's open issues as the Desk shows them. Signed in, RLS keeps the reader in their company. An API key's app
+ * (lib/api/auth: the MCP server) passes the service client: the query is already scoped to the app, and member emails
+ * come from service_member_emails, the service role's copy of project_member_emails.
+ */
+export async function listIssues(projectId: string, now = Date.now(), service?: SupabaseClient): Promise<IssueCardData[]> {
+  const db = service ?? await userDb();
   const { data, error } = await db.from("issues").select(`
     id, short_id, title, type, lane, importance, ease, people_count, status, owner_id, score_breakdown, diagnosis, updated_at,
     jobs(code),
@@ -45,8 +51,9 @@ export async function listIssues(projectId: string, now = Date.now()): Promise<I
     activity(kind, user_id, at)
   `).eq("project_id", projectId).neq("status", "dismissed");
   if (error) throw new Error(error.message);
-  const { data: people, error: peopleError } = await db.rpc("project_member_emails", { p_project: projectId });
-  if (peopleError) throw new Error(`project_member_emails: ${peopleError.message}`);
+  const emails = service ? "service_member_emails" : "project_member_emails";
+  const { data: people, error: peopleError } = await db.rpc(emails, { p_project: projectId });
+  if (peopleError) throw new Error(`${emails}: ${peopleError.message}`);
   const emailById = new Map(((people ?? []) as { user_id: string; email: string }[]).map((p) => [p.user_id, p.email]));
   // PostHog users lift urgency as they do in Why it matters (lib/posthog/reach); an app without PostHog data reads none.
   const phUsers = await posthogUsersByIssue(db, projectId, (data ?? []).map((i: any) => ({ id: i.id, frames: (i.issue_screens ?? []).map((s: any) => s.screens?.frame_id).filter(Boolean) })));

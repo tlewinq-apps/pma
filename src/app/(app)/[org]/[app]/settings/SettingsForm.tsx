@@ -7,6 +7,7 @@ import { useApp } from "@/components/app/AppContext";
 import { GithubConnect } from "@/components/github/GithubConnect";
 import type { GithubFlash } from "@/components/github/flash";
 import type { GithubView } from "@/lib/github/view";
+import { ClaudeCard } from "./ClaudeCard";
 
 export type SettingsView = Pick<Project, "repo_full_name" | "design_path" | "watched_branch" | "slack_webhook_url" | "widget_key" | "widget_origins" | "route_map"> & { api_key_prefix: string };
 
@@ -93,7 +94,7 @@ export function RepositoryCard({ repo: initialRepo, branch: initialBranch, githu
 /**
  * The app's settings forms. Only the demo app has the GitHub & Marver card (its repository read-only, as before, with
  * the draft-workflow note): a customer app sets the repository in its Repository card, the canvas under Connections,
- * and Slack under Connections, so it sees the Widget and API cards. The legacy Slack webhook card is the demo's, and
+ * and Slack under Connections, so it sees the Widget and Use PMA from Claude cards. The legacy Slack webhook card is the demo's, and
  * a customer app sees it only while it still has a saved webhook, so that can be cleared.
  */
 export function SettingsForm({ project, appUrl, demo = false }: { project: SettingsView; appUrl: string; demo?: boolean }) {
@@ -134,9 +135,7 @@ export function SettingsForm({ project, appUrl, demo = false }: { project: Setti
           <Button type="submit" size="sm">Save</Button><Button type="button" size="sm" variant="outline" onClick={test}>Send test</Button>
         </form>
       </Card>}
-      <Card title="API">
-        <p className="text-xs text-muted-foreground">API key: <code>{project.api_key_prefix}…</code></p>
-      </Card>
+      <ClaudeCard appUrl={appUrl} keyPrefix={project.api_key_prefix} />
     </div>
   );
 }

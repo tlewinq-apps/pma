@@ -9,6 +9,7 @@
 import type { DiagnosisFinding } from "@/lib/diagnosis/model";
 import { sourceLine } from "@/lib/diagnosis/checks";
 import type { ProductProfile } from "@/lib/product/profile";
+import type { IssueDetail } from "@/lib/queries/issueDetail";
 
 export type HandoffInput = {
   short_id: string; title: string; problem: string; quotes: string[]; type: string;
@@ -43,7 +44,7 @@ const MAX_REFS = 12;
 const EMAIL = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 
 /** One line of plain text: control characters and line breaks become spaces, emails are left out, nothing is longer than `max`. */
-function plain(s: string | null | undefined, max = 1200): string {
+export function plain(s: string | null | undefined, max = 1200): string {
   const t = (s ?? "").replace(/[\u0000-\u001f\u007f\u2028\u2029]+/g, " ").replace(/\s+/g, " ").trim().replace(EMAIL, "(email removed)");
   return t.length > max ? `${t.slice(0, max - 1).trimEnd()}…` : t;
 }
@@ -78,6 +79,25 @@ const PLATFORM: Record<ProductProfile["platform"], string> = {
 export function pickHandoffProposal<S extends { id: string; recommended: boolean; rank: number }>(solutions: S[], asked: string | null, drafted: string | null): S | null {
   const byId = (id: string | null) => (id ? solutions.find((s) => s.id === id) ?? null : null);
   return byId(asked) ?? byId(drafted) ?? solutions.find((s) => s.recommended) ?? [...solutions].sort((a, b) => a.rank - b.rank)[0] ?? null;
+}
+
+/**
+ * The task's input for one proposal, from the issue as its page reads it (lib/queries/issueDetail), and the app's
+ * repository and watched branch. Copy task and the MCP server's get_build_task both build from it, so they hand over
+ * the same text.
+ */
+export function handoffInputFor(d: IssueDetail, app: { repo_full_name: string | null; watched_branch: string | null }, proposal: { id: string; title: string; summary: string; tradeoffs: string | null }): HandoffInput {
+  const finding = d.diagnosis?.status === "done" ? d.diagnosis.finding ?? null : null;
+  // The ref the first step read the code at, when it read any; otherwise the branch the app watches.
+  const ref = finding?.source?.read ? finding.source.ref : app.repo_full_name ? app.watched_branch || null : null;
+  // The mock-up of this proposal, when it has one.
+  const draft = d.draft && d.draft.solution_id === proposal.id ? d.draft : null;
+  const drafted = draft ? draft.frames.map((f) => f.changed).filter((c): c is string => !!c) : [];
+  return {
+    short_id: d.short_id, title: d.title, problem: d.problem_statement, quotes: d.quotes.map((q) => q.quote), type: d.type,
+    finding, proposal: { title: proposal.title, summary: proposal.summary, tradeoffs: proposal.tradeoffs },
+    repo: app.repo_full_name, ref, mockup: drafted.length ? { changed: drafted } : null, profile: d.project.profile,
+  };
 }
 
 /** "pma-vb-12.md" (or ".zip"): the download's file name, from the short id only. */
