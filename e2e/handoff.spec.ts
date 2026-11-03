@@ -56,7 +56,7 @@ test.describe("the admin of e2e-other", () => {
       expect(res.headers()["content-type"]).toContain("text/markdown");
       const md = await res.text();
       expect(md.trimEnd().split("\n").at(-1)).toBe(`PMA: ${issue.short_id}`);
-      expect(md).toContain("## Files to start from");
+      expect(md).toContain("## What PMA found");
       expect(md).toContain("`src/screens/ResultModal.tsx`");
       expect(md).toContain("E2E fit the look in the box");
 

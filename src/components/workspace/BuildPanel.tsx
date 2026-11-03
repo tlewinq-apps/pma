@@ -272,7 +272,7 @@ export function BuildPanel({ d, me, now, solutionId, solutionTitle, zip, live = 
           </div>
           {form}
           {more("What the task holds", <>
-            <p>What people said, what PMA found, the files to start from and how to check it, with the approved mock-up. Download task adds its images (today.png and proposed.png) and its layout code. Your engineers build it, and the pull request comes back here.</p>
+            <p>Only what Claude Code can&apos;t work out from your code: the problem in people&apos;s words, what PMA found with its file and line references, the approved change, and when it&apos;s done. Download task adds its images (today.png and proposed.png) and its layout code. Your engineers build it, and the pull request comes back here.</p>
             {/* Copy Claude Code prompt: the same task through PMA's MCP server (lib/mcp), for an engineer already in Claude Code. */}
             <p>Copy Claude Code prompt is for an engineer working in Claude Code. {PULL_TASK_NOTE} <Link href={href(`/settings#${CLAUDE_CARD_ID}`)} className="text-foreground underline-offset-4 hover:underline">Connect Claude</Link></p>
             {how}

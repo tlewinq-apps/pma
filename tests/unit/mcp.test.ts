@@ -223,7 +223,7 @@ describe("get_build_task", () => {
     expect(md.trimEnd().split("\n").at(-1)).toBe("PMA: a1b2c3");
     expect(md).toContain(HANDOFF_PREFACE);
     expect(md).toContain(SAID_FRAMING);
-    expect(md).toContain("`src/pay.tsx:42`");
+    expect(md).toMatch(/- `src\/pay\.tsx`: line 42, /);
     expect(md).not.toMatch(/@acme\.test/);
     expect(h.writes).toEqual([{ table: "activity", op: "insert", values: { issue_id: PAY, user_id: null, kind: "handed_off", payload: { via: "mcp", to: "claude_code", solution_id: "s1" } } }]);
   });

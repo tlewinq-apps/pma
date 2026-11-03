@@ -60,7 +60,7 @@ export async function loadBuildBrief(issueId: string, db: SupabaseClient = servi
   const proposed = await image(mine?.after_images?.[0]?.url);
   const frameCode = typeof frames[0]?.source === "string" ? (frames[0].source as string).slice(0, MAX_FRAME_CHARS) : null;
 
-  const content: Exclude<UserContent, string> = [{ type: "text", text: `Build this change in the ${p.repo_full_name ?? "app's"} repository.\n\n${task}` }];
+  const content: Exclude<UserContent, string> = [{ type: "text", text: task }];
   if (today || proposed) {
     content.push({ type: "text", text: `The approved mock-up. ${IMAGES_FRAMING}` });
     if (today) content.push({ type: "text", text: "The screen today:" }, today);
