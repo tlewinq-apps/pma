@@ -41,6 +41,9 @@ describe("Waiting for the pull request", () => {
       expect(text(visible), role).toContain("Copy task for Claude Code");
       expect(text(visible), role).toContain("Download task");
       expect(visible, role).toContain("format=zip");
+      // The MCP route sits beside them, for the issue's own short id.
+      expect(text(visible), role).toContain("Copy Claude Code prompt");
+      expect(visible, role).toContain('data-pull="ABC123"');
       // Only the explanation sits behind the disclosure, and it no longer repeats the actions.
       const folded = html.slice(fold);
       expect(text(folded), role).toContain("PMA: ABC123");
@@ -51,6 +54,18 @@ describe("Waiting for the pull request", () => {
   it("still folds the explanation, and the Link pull request button stays for people who may link", () => {
     expect(text(panel({ activity: [approved, handedOff] }))).toContain("Link pull request");
     expect(text(panel({ activity: [approved, handedOff], role: "member" }))).not.toContain("Link pull request");
+  });
+});
+
+describe("Next: hand it to Claude Code", () => {
+  it("offers Copy task, Download task and Copy Claude Code prompt in view, with Connect Claude in the explanation", () => {
+    const html = panel({ activity: [approved] });
+    const t = text(html);
+    expect(t).toContain("Next: hand it to Claude Code");
+    const fold = html.indexOf("What the task holds");
+    expect(fold).toBeGreaterThan(-1);
+    for (const action of ["Copy task for Claude Code", "Download task", "Copy Claude Code prompt"]) expect(text(html.slice(0, fold)), action).toContain(action);
+    expect(html.slice(fold)).toContain('href="/acme/app/settings#claude"');
   });
 });
 

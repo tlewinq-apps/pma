@@ -21,7 +21,7 @@ export const BUILD_OPTION: Record<BuildMode, { label: string; line: string }> = 
   },
   claude_code: {
     label: "Hand off to Claude Code",
-    line: "Your engineers get the task and the mock-up images, and build it with Claude Code themselves.",
+    line: "Your engineers get the task and the mock-up images, and build it with Claude Code themselves. With PMA connected to Claude Code, they can pull the task from there.",
   },
 };
 /** "Approved ..., to <verb>." */

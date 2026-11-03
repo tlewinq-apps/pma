@@ -24,6 +24,7 @@ describe("How should this be built?", () => {
     expect(BUILD_OPTION.new_pr.line).toMatch(/Nothing merges without your review/);
     expect(BUILD_OPTION.branch.line).toMatch(/branch you pick/);
     expect(BUILD_OPTION.claude_code.line).toMatch(/task and the mock-up images/);
+    expect(BUILD_OPTION.claude_code.line).toMatch(/pull the task from there/);
   });
 
   it("follows the owner's copy rules: no arrows, middle dots or all-caps labels", () => {

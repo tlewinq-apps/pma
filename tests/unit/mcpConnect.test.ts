@@ -11,7 +11,7 @@ vi.mock("@/lib/db/app", () => ({ appById: async () => h.ctx, hasRole: (ctx: { ro
 
 import { ClaudeCard } from "@/app/(app)/[org]/[app]/settings/ClaudeCard";
 import { GET as apiKey } from "@/app/api/apps/[appId]/api-key/route";
-import { KEY_FORBIDDEN, KEY_PLACEHOLDER, MCP_ASKS, mcpAddCommand, mcpEndpoint, pullTaskLine } from "@/lib/mcp/connect";
+import { KEY_FORBIDDEN, KEY_PLACEHOLDER, MCP_ASKS, mcpAddCommand, mcpEndpoint, pullTaskPrompt } from "@/lib/mcp/connect";
 import { MCP_TOOLS } from "@/lib/mcp/server";
 
 const text = (html: string) => html.replace(/<[^>]+>/g, "").replace(/&#x27;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/\s+/g, " ");
@@ -24,9 +24,17 @@ describe("the connect copy", () => {
     expect(mcpAddCommand("https://pma.example.com/api/mcp")).toBe(`claude mcp add --transport http pma https://pma.example.com/api/mcp --header "Authorization: Bearer ${KEY_PLACEHOLDER}"`);
   });
 
-  it("names a real tool for every example ask, and points the hand-off step at the issue's PMA line", () => {
+  it("names a real tool for every example ask", () => {
     for (const a of MCP_ASKS) expect(MCP_TOOLS as readonly string[]).toContain(a.tool);
-    expect(pullTaskLine("a1b2c3")).toContain("build PMA issue a1b2c3");
+  });
+
+  it("gives the approved issue's prompt the tool, the issue, and what to do when PMA isn't connected", () => {
+    const p = pullTaskPrompt("a1b2c3");
+    expect(p).toMatch(/^Build PMA issue a1b2c3: /);
+    expect(p).toContain("get_build_task");
+    expect(MCP_TOOLS as readonly string[]).toContain("get_build_task");
+    expect(p).toContain("Use PMA from Claude");
+    expect(p).not.toMatch(/\n/);
   });
 });
 

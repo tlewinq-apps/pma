@@ -24,5 +24,13 @@ export const MCP_ASKS: readonly { ask: string; who: "pm" | "engineer"; tool: str
   { ask: "Build the approved PMA issue a1b2c3.", who: "engineer", tool: "get_build_task" },
 ];
 
-/** The hand-off step's line on the issue page: the same task, pulled from Claude Code instead of copied. */
-export const pullTaskLine = (short: string) => `Working in Claude Code with PMA connected? Ask it to build PMA issue ${short}: it gets this same task, and its pull request links back here.`;
+/**
+ * What Copy Claude Code prompt copies on an approved issue: one line an engineer pastes into Claude Code, which then
+ * pulls the task itself through PMA's MCP server (get_build_task). It says what to do when the server isn't connected,
+ * so pasting it before connecting still gets a useful answer.
+ */
+export const pullTaskPrompt = (short: string) =>
+  `Build PMA issue ${short}: get its build task with the pma MCP server's get_build_task tool and follow it. If the pma server isn't connected, tell me to add it from PMA's Settings, under Use PMA from Claude.`;
+
+/** Under the hand-off actions once the prompt is copied, and in the hand-off step's explanation. */
+export const PULL_TASK_NOTE = "Paste it into Claude Code in the app's repository. With PMA connected, Claude Code pulls this same task through PMA's MCP server, builds it there with your tests, and the pull request links back here.";
