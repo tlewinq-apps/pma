@@ -1,0 +1,61 @@
+# dependencies
+node_modules/
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+/test-results/
+/playwright-report/
+
+# next.js
+.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env*
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# e2e sign-in states (contain session cookies) and the ids global-setup made
+/e2e/.auth.json
+/e2e/.auth/
+/e2e/.fixtures.json
+# the throwaway GitHub App key the connectors fake writes for its dev server
+/e2e/.github-app.env
+supabase/.temp/
+
+# Marver canvas local state (dev token, screenshots), and proposals PMA writes into the local canvas
+**/design/.local/
+demo/celeste-design/design/scenes/pma-*/
+demo/celeste-design/design/boards/pma-*.json
+
+# Repositories cloned for local reading (dev only; may be private code)
+.local-repos/
+
+# Launch assets (carousel, video) built locally
+/launch/

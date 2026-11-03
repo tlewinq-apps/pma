@@ -1,0 +1,39 @@
+{
+  "file": "member-call-signed-out.mp3",
+  "title": "Member phone call",
+  "who": "Noah Kim",
+  "where": "Support call",
+  "participants": "Jess (staff), Noah Kim (member)",
+  "lines": [
+    {
+      "voice": "Tessa",
+      "name": "Jess",
+      "role": "staff",
+      "text": "Celeste support, this is Jess speaking."
+    },
+    {
+      "voice": "Rishi",
+      "name": "Noah Kim",
+      "role": "member",
+      "text": "Hi, it's Noah Kim. I'm stuck. Every time I open a friend's chart from a compatibility reading, the app signs me out, and then it says my sign-in link has expired."
+    },
+    {
+      "voice": "Tessa",
+      "name": "Jess",
+      "role": "staff",
+      "text": "Oh no. Have you tried closing the app and opening it again?"
+    },
+    {
+      "voice": "Rishi",
+      "name": "Noah Kim",
+      "role": "member",
+      "text": "Yes, and I reinstalled it. It happens every time. And Restore purchase still does nothing, so my monthly forecast is locked. It's completely blocking me."
+    },
+    {
+      "voice": "Tessa",
+      "name": "Jess",
+      "role": "staff",
+      "text": "I'm sorry, Noah. I'll send you a new sign-in link and flag this with the app team today."
+    }
+  ]
+}

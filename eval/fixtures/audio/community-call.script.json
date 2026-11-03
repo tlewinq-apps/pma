@@ -1,0 +1,63 @@
+{
+  "file": "member-community-call.mp3",
+  "title": "Member community call",
+  "who": "Dani",
+  "where": "Monthly community call",
+  "participants": "Dani (staff), Priya Nair (member), Tom Becker (member), Elena Costa (member)",
+  "lines": [
+    {
+      "voice": "Samantha",
+      "name": "Dani",
+      "role": "staff",
+      "text": "Hi everyone, thanks for joining the community call. I'm Dani from the Celeste team. We'd love to hear how the app is working for you this month, the good and the bad."
+    },
+    {
+      "voice": "Karen",
+      "name": "Priya Nair",
+      "role": "member",
+      "text": "I'm Priya. Honestly, my birth details are the big one for me. I fixed the spelling of my birth city, pressed continue, and my birth time went back to twelve noon. My rising sign changed and I didn't notice for a week, so every reading was wrong."
+    },
+    {
+      "voice": "Daniel",
+      "name": "Tom Becker",
+      "role": "member",
+      "text": "Tom here. Same thing happened to me when I corrected my birth place. The time reset to twelve. I don't trust the edit screen any more, so I check my chart every single time I change anything."
+    },
+    {
+      "voice": "Moira",
+      "name": "Elena Costa",
+      "role": "member",
+      "text": "Elena. It happened to me too, twice this month. You save, and the time is just gone."
+    },
+    {
+      "voice": "Samantha",
+      "name": "Dani",
+      "role": "staff",
+      "text": "That's really useful, thank you. Anything else?"
+    },
+    {
+      "voice": "Daniel",
+      "name": "Tom Becker",
+      "role": "member",
+      "text": "Compatibility readings. I do one with my partner and it's gone as soon as I leave the screen. I'd love to keep them."
+    },
+    {
+      "voice": "Moira",
+      "name": "Elena Costa",
+      "role": "member",
+      "text": "And I'd love to add my transits to my phone's calendar, so I can see a tricky day coming next to my work meetings."
+    },
+    {
+      "voice": "Karen",
+      "name": "Priya Nair",
+      "role": "member",
+      "text": "To be fair, the daily reading is lovely now. It feels personal, and it's the first thing I open in the morning."
+    },
+    {
+      "voice": "Samantha",
+      "name": "Dani",
+      "role": "staff",
+      "text": "Lovely. I'll pass all of this on to the product team. Thanks, everyone."
+    }
+  ]
+}

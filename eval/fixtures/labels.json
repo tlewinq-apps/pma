@@ -1,0 +1,100 @@
+[
+  {
+    "source": "call",
+    "match": "it arrives at three in the morning",
+    "type": "bug",
+    "issue": "push-wrong-time",
+    "screen": "settings"
+  },
+  {
+    "source": "call",
+    "match": "my birth time went back to twelve noon",
+    "type": "bug",
+    "issue": "birth-time-reset",
+    "screen": "onboarding"
+  },
+  {
+    "source": "call",
+    "match": "feeling a bit slow to open",
+    "type": "bug",
+    "issue": "app-slow",
+    "screen": null
+  },
+  {
+    "source": "slack",
+    "match": "comparing with a friend takes way too many taps",
+    "type": "streamline",
+    "issue": "compare-steps",
+    "screen": "friends"
+  },
+  {
+    "source": "slack",
+    "match": "does anyone actually know what Rising means",
+    "type": "streamline",
+    "issue": "chart-terms",
+    "screen": "chart"
+  },
+  {
+    "source": "slack",
+    "match": "the image cuts off the bottom",
+    "type": "bug",
+    "issue": "share-image-cropped",
+    "screen": "chart"
+  },
+  {
+    "source": "slack",
+    "match": "the daily reading is the best part of my morning",
+    "type": "praise",
+    "issue": null,
+    "screen": "today"
+  },
+  {
+    "source": "email",
+    "match": "I couldn't find any way to say so",
+    "type": "streamline",
+    "issue": "unknown-birth-time",
+    "screen": "onboarding"
+  },
+  {
+    "source": "email",
+    "match": "nothing on the screen said it would turn into a yearly plan",
+    "type": "streamline",
+    "issue": "trial-terms-unclear",
+    "screen": "plus"
+  },
+  {
+    "source": "email",
+    "match": "I'd love to save a compatibility reading",
+    "type": "add_on",
+    "issue": "compat-save",
+    "screen": "compatibility"
+  },
+  {
+    "source": "note",
+    "match": "the journal only lists entries by date",
+    "type": "add_on",
+    "issue": "journal-moon-filter",
+    "screen": "journal"
+  },
+  {
+    "source": "note",
+    "match": "asked for a reminder on the evening of each full moon",
+    "type": "new_feature",
+    "issue": "full-moon-reminders",
+    "screen": "journal"
+  },
+  {
+    "source": "note",
+    "match": "nobody could say what the houses mean",
+    "type": "streamline",
+    "issue": "chart-terms",
+    "screen": "chart"
+  },
+  {
+    "source": "note",
+    "match": "the moon phase on Today is the first thing they check every morning",
+    "type": "praise",
+    "issue": null,
+    "screen": "today"
+  }
+]

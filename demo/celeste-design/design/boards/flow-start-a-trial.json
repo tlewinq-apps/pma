@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "flow-start-a-trial",
+  "title": "Start a Plus trial",
+  "description": "Starting a Celeste Plus free trial from Today.",
+  "order": 4,
+  "auto": false,
+  "nodes": [
+    {
+      "frame": "today/index",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "frame": "plus/upgrade",
+      "x": 470,
+      "y": 0
+    }
+  ]
+}

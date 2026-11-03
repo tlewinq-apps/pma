@@ -1,0 +1,53 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pma-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "pma-prod-3001",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "next",
+        "start",
+        "-p",
+        "3001"
+      ],
+      "port": 3001
+    },
+    {
+      "name": "pma-dev-3002",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "next",
+        "dev",
+        "-p",
+        "3002"
+      ],
+      "port": 3002
+    },
+    {
+      "name": "pma-marver-local",
+      "runtimeExecutable": "env",
+      "runtimeArgs": [
+        "APP_URL=http://localhost:3000",
+        "SLACK_BOT_TOKEN=",
+        "DRAFT_BACKEND=mock",
+        "MARVER_CANVAS_DIR=demo/celeste-design",
+        "MARVER_CANVAS_URL=http://localhost:5298",
+        "npx",
+        "next",
+        "dev",
+        "-p",
+        "3000"
+      ],
+      "port": 3000
+    }
+  ]
+}

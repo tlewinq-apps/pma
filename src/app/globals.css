@@ -1,0 +1,396 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-manrope);
+  --font-mono: var(--font-fragment-mono);
+  --font-heading: var(--font-display);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-tone-negative: var(--tone-negative);
+  --color-tone-caution: var(--tone-caution);
+  --color-tone-positive: var(--tone-positive);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* PMA: a grained cream ground holds the sidebar; the page is one raised cream sheet; cards are white paper on it.
+   Grey ink, blue as the signature. Light only. */
+:root {
+  --ground: #ece7dc;
+  --background: #fbf9f4;
+  --foreground: #262b33;
+  --card: #ffffff;
+  --card-foreground: #262b33;
+  --popover: #ffffff;
+  --popover-foreground: #262b33;
+  --primary: #2753be;
+  --primary-foreground: #ffffff;
+  --secondary: #f2efe8;
+  --secondary-foreground: #262b33;
+  --muted: #f2efe8;
+  --muted-foreground: #5a626e;
+  --accent: #f2efe8;
+  --accent-foreground: #262b33;
+  --destructive: #b3261e;
+  --border: rgb(38 43 51 / 0.1);
+  --input: rgb(38 43 51 / 0.18);
+  --ring: #2f5fd0;
+  --chart-1: #b8382a;
+  --chart-2: #6a4c9c;
+  --chart-3: #1f6f78;
+  --chart-4: #8a5a0b;
+  --chart-5: #5a626e;
+  /* Controls rounded-lg 10px, cards rounded-xl 14px, the sheet rounded-2xl 18px. */
+  --radius: 0.625rem;
+  --sidebar: #ece7dc;
+  --sidebar-foreground: #262b33;
+  --sidebar-primary: #262b33;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ffffff;
+  --sidebar-accent-foreground: #262b33;
+  --sidebar-border: rgb(38 43 51 / 0.1);
+  --sidebar-ring: #2f5fd0;
+}
+
+/* Depth and motion. Shadows are tinted with the grey ink so they sit softly on cream and paper. */
+@theme {
+  --color-ground: var(--ground);
+  --shadow-paper: 0 0 0 1px rgb(38 43 51 / 0.06), 0 1px 2px rgb(38 43 51 / 0.05), 0 3px 10px -4px rgb(38 43 51 / 0.08);
+  --shadow-lift: 0 0 0 1px rgb(38 43 51 / 0.07), 0 2px 4px rgb(38 43 51 / 0.04), 0 14px 28px -10px rgb(38 43 51 / 0.2), 0 28px 56px -28px rgb(38 43 51 / 0.22);
+  --shadow-sheet: 0 0 0 1px rgb(38 43 51 / 0.07), 0 1px 2px rgb(38 43 51 / 0.05), 0 10px 30px -12px rgb(38 43 51 / 0.16);
+  --shadow-pop: 0 0 0 1px rgb(38 43 51 / 0.08), 0 10px 20px -8px rgb(38 43 51 / 0.16), 0 30px 64px -20px rgb(38 43 51 / 0.32);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-ground text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: rgb(47 95 208 / 0.18);
+  }
+}
+
+/* Links: dotted underline that goes solid on hover. */
+@utility link {
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  &:hover {
+    text-decoration-style: solid;
+  }
+}
+
+/* Colour encodes type. Muted tones: each clears 4.5:1 on paper, cream and muted. */
+:root { --type-bug: #b8382a; --type-streamline: #8a5a0b; --type-add_on: #1f6f78; --type-new_feature: #6a4c9c; --brand: #2f5fd0; }
+/* The blue deepened to carry white text (6.8:1), for the one blue call to action: Assign me. */
+:root { --brand-strong: #2753be; }
+/* Assign me on an issue nobody owns: a slow blue ring that keeps asking for an owner. Still on hover, focus and reduced motion. */
+@keyframes ask-owner {
+  0% { box-shadow: 0 0 0 0 rgb(47 95 208 / 0.5); }
+  70%, 100% { box-shadow: 0 0 0 8px rgb(47 95 208 / 0); }
+}
+.ask-owner { animation: ask-owner 2.2s ease-out infinite; }
+.ask-owner:hover, .ask-owner:focus-visible { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ask-owner { animation: none; } }
+/* Stage of an issue on its way to shipped: card proposal slot, workspace stepper. Diagnose is the bug-only first step. */
+:root { --stage-diagnose: #1f6f73; }
+:root { --stage-ready: #2a7046; --stage-drafting: #8a5a0b; --stage-review: #1f6f78; --stage-shipped: #2a7046; --stage-failed: #b3261e; }
+/* How people felt, source health, praise. */
+:root { --tone-negative: #b3261e; --tone-caution: #8a5a0b; --tone-positive: #2a7046; }
+html { color-scheme: light; }
+
+/* Grain on the ground only (sidebar and the frame round the sheet), so paper reads clean and the frame reads
+   textured. Ink speckles; clicks pass through. */
+.ground { position: relative; isolation: isolate; background: var(--ground); }
+.ground::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.38;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .18 0 0 0 0 .17 0 0 0 0 .17 1.4 0 0 0 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+@media print { .ground::before { display: none; } }
+
+/* ---------- Interaction: depth, lift, glare, sheen, zoom. One system, reused on every screen. ---------- */
+
+/* White paper on the sheet: rounded, hairline ring, soft contact shadow. */
+@utility surface {
+  background-color: var(--card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-paper);
+}
+
+/* Lifts toward the pointer on hover and settles on press. Movement only where hover exists and motion is welcome. */
+@utility lift {
+  transition: transform 280ms var(--ease-smooth), box-shadow 280ms var(--ease-smooth), background-color 200ms ease;
+  @media (hover: hover) {
+    &:hover { box-shadow: var(--shadow-lift); }
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover { transform: translateY(-3px) scale(1.012); }
+    &:active { transform: translateY(-1px) scale(0.995); transition-duration: 90ms; }
+  }
+}
+
+/* Light catching the edge: the border brightens in blue where the pointer is, with a faint wash inside.
+   GlareTracker sets --gx/--gy; without it the light rests at the top. */
+@utility glare {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 1.5px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(200px circle at var(--gx, 50%) var(--gy, -30%), rgb(47 95 208 / 0.85), rgb(47 95 208 / 0.22) 42%, transparent 72%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 320ms var(--ease-smooth);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(300px circle at var(--gx, 50%) var(--gy, -30%), rgb(47 95 208 / 0.085), rgb(255 255 255 / 0) 65%);
+    opacity: 0;
+    transition: opacity 320ms var(--ease-smooth);
+  }
+  @media (hover: hover) {
+    &:hover::before, &:hover::after { opacity: 1; }
+  }
+  &:focus-visible::before { opacity: 0.8; }
+}
+
+/* A diagonal highlight that sweeps across on hover: blue buttons and mock-up images. */
+@utility sheen {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 0.3) 48%, rgb(255 255 255 / 0.08) 56%, transparent 70%);
+    transform: translateX(-130%);
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover::after { transform: translateX(130%); transition: transform 850ms var(--ease-smooth); }
+  }
+}
+
+/* The primary button (blue): a soft top light, a grounded shadow, brightens on hover, presses in. */
+@utility btn-ink {
+  border-radius: var(--radius-lg);
+  background-image: linear-gradient(180deg, #3a68d6, var(--primary));
+  background-color: var(--primary);
+  color: var(--background);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 1px 2px rgb(38 43 51 / 0.2), 0 6px 14px -6px rgb(38 43 51 / 0.45);
+  transition: transform 160ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth), filter 220ms ease;
+  &:hover:not(:disabled) { filter: brightness(1.14); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.16), 0 2px 4px rgb(38 43 51 / 0.2), 0 10px 22px -8px rgb(38 43 51 / 0.5); }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active:not(:disabled) { transform: scale(0.97); transition-duration: 80ms; }
+  }
+}
+
+/* Quiet raised button: white, hairline, lifts its shadow on hover. */
+@utility btn-paper {
+  border-radius: var(--radius-lg);
+  background-color: var(--card);
+  box-shadow: var(--shadow-paper);
+  transition: transform 160ms var(--ease-smooth), box-shadow 220ms var(--ease-smooth), background-color 160ms ease;
+  &:hover:not(:disabled) { box-shadow: 0 0 0 1px rgb(38 43 51 / 0.12), 0 2px 4px rgb(38 43 51 / 0.06), 0 8px 18px -8px rgb(38 43 51 / 0.2); }
+  @media (prefers-reduced-motion: no-preference) {
+    &:active:not(:disabled) { transform: scale(0.97); transition-duration: 80ms; }
+  }
+}
+
+/* Any control that should give under the finger. */
+@utility press {
+  transition: transform 160ms var(--ease-smooth), background-color 160ms ease, color 160ms ease, box-shadow 200ms ease;
+  @media (prefers-reduced-motion: no-preference) {
+    &:active:not(:disabled) { transform: scale(0.96); transition-duration: 80ms; }
+  }
+}
+
+/* An image in a rounded frame that zooms gently inside it on hover. */
+@utility zoom-media {
+  overflow: hidden;
+  & img { transition: transform 600ms var(--ease-smooth); transform-origin: 50% 0; }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover img { transform: scale(1.06); }
+  }
+}
+
+/* A field: white, hairline, the focus ring grows in as a soft blue glow. */
+@utility field {
+  border-radius: var(--radius-lg);
+  background-color: var(--card);
+  box-shadow: 0 0 0 1px var(--input), 0 1px 2px rgb(38 43 51 / 0.04);
+  transition: box-shadow 220ms var(--ease-smooth);
+  &:focus-within, &:focus-visible { outline: none; box-shadow: 0 0 0 1px rgb(47 95 208 / 0.7), 0 0 0 4px rgb(47 95 208 / 0.14); }
+}
+
+/* Revealed content fades up as it opens (Disclosure, pop-ups). */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(6px); filter: blur(2px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@utility rise-in {
+  animation: rise-in 420ms var(--ease-smooth) both;
+  @media (prefers-reduced-motion: reduce) { animation: none; }
+}
+
+/* ---------- Start here: one step per screen ---------- */
+/* A screen's parts rise in one after another as it slides in. */
+.stagger > * { animation: rise-in 520ms var(--ease-smooth) both; }
+.stagger > :nth-child(2) { animation-delay: 60ms; }
+.stagger > :nth-child(3) { animation-delay: 120ms; }
+.stagger > :nth-child(4) { animation-delay: 180ms; }
+.stagger > :nth-child(5) { animation-delay: 240ms; }
+.stagger > :nth-child(6) { animation-delay: 300ms; }
+.stagger > :nth-child(n + 7) { animation-delay: 360ms; }
+/* The progress rail's fill glides to the step you're on. */
+.setup-fill { transition: width 700ms var(--ease-smooth); }
+/* A connector plugged in: the tick pops in and draws itself, a ring and a few sparks go out, and Continue glows. */
+@keyframes setup-pop { 0% { transform: scale(0.4); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); } }
+@keyframes setup-draw { from { stroke-dashoffset: 24; } }
+@keyframes setup-ring { from { transform: scale(0.7); opacity: 0.55; } to { transform: scale(2.3); opacity: 0; } }
+@keyframes setup-spark { from { transform: rotate(var(--a)) translateY(-12px) scale(1); opacity: 1; } to { transform: rotate(var(--a)) translateY(-34px) scale(0.3); opacity: 0; } }
+@keyframes setup-glow { 0%, 100% { box-shadow: 0 0 0 0 rgb(47 95 208 / 0); } 50% { box-shadow: 0 0 0 7px rgb(47 95 208 / 0.22); } }
+.setup-pop { animation: setup-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.setup-draw { stroke-dasharray: 24; animation: setup-draw 420ms 220ms var(--ease-smooth) both; }
+.setup-ring { animation: setup-ring 900ms 120ms ease-out both; }
+.setup-spark { animation: setup-spark 700ms 160ms ease-out both; }
+.setup-glow { animation: setup-glow 1.1s 400ms ease-in-out 2; }
+@media (prefers-reduced-motion: reduce) {
+  .stagger > *, .setup-pop, .setup-draw, .setup-ring, .setup-spark, .setup-glow { animation: none; }
+  .setup-fill { transition: none; }
+}
+
+/* ---------- Page transitions (React <ViewTransition>, driven by Link/router transitionTypes) ---------- */
+:root { --vt-exit: 140ms; --vt-enter: 260ms; --vt-move: 420ms; }
+::view-transition { pointer-events: none; }
+/* The frame (cream ground, sidebar, the sheet's edge) stays still; only named parts move. */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+
+@keyframes vt-fade-in { from { opacity: 0; filter: blur(3px); } to { opacity: 1; filter: none; } }
+@keyframes vt-fade-out { to { opacity: 0; filter: blur(2px); } }
+@keyframes vt-rise { from { transform: translateY(10px); } }
+@keyframes vt-slide-from { from { translate: var(--vt-offset) 0; } }
+@keyframes vt-slide-to { to { translate: var(--vt-offset) 0; } }
+
+/* Sidebar section switch: the old page drops away, the new one rises in. */
+::view-transition-old(.page-rise) { animation: var(--vt-exit) ease-in both vt-fade-out; }
+::view-transition-new(.page-rise) { animation: var(--vt-enter) var(--ease-smooth) var(--vt-exit) both vt-fade-in, var(--vt-move) var(--ease-smooth) var(--vt-exit) both vt-rise; }
+/* Deeper (Desk to an issue, next issue): content moves left. Back: it moves right. */
+::view-transition-old(.page-forward) { --vt-offset: -24px; animation: var(--vt-exit) ease-in both vt-fade-out, var(--vt-move) var(--ease-smooth) both vt-slide-to; }
+::view-transition-new(.page-forward) { --vt-offset: 32px; animation: var(--vt-enter) var(--ease-smooth) var(--vt-exit) both vt-fade-in, var(--vt-move) var(--ease-smooth) both vt-slide-from; }
+::view-transition-old(.page-back) { --vt-offset: 24px; animation: var(--vt-exit) ease-in both vt-fade-out, var(--vt-move) var(--ease-smooth) both vt-slide-to; }
+::view-transition-new(.page-back) { --vt-offset: -32px; animation: var(--vt-enter) var(--ease-smooth) var(--vt-exit) both vt-fade-in, var(--vt-move) var(--ease-smooth) both vt-slide-from; }
+
+/* The issue title flies from its Desk card into the issue header, softening mid-flight. */
+::view-transition-group(.title-morph) { animation-duration: 460ms; animation-timing-function: var(--ease-smooth); z-index: 20; }
+::view-transition-image-pair(.title-morph) { animation: 460ms var(--ease-smooth) vt-soften; }
+::view-transition-old(.title-morph), ::view-transition-new(.title-morph) { height: 100%; object-fit: contain; object-position: left top; }
+@keyframes vt-soften { 35% { filter: blur(2px); } }
+
+/* Gliding selections: the sidebar pill, the Desk view tab, cards moving between row and grid. */
+::view-transition-group(.glide) { animation-duration: 360ms; animation-timing-function: var(--ease-smooth); }
+::view-transition-group(.card-move) { animation-duration: 420ms; animation-timing-function: var(--ease-smooth); }
+::view-transition-old(.card-move), ::view-transition-new(.card-move) { height: 100%; }
+::view-transition-old(.swap) { animation: 120ms ease-in both vt-fade-out; }
+::view-transition-new(.swap) { animation: 240ms var(--ease-smooth) 80ms both vt-fade-in; }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*), ::view-transition-image-pair(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* Progress lines fill in from the left when a page opens, one after another. */
+@keyframes fill-x { from { transform: scaleX(0); } }
+.fill-x { transform-origin: left center; animation: fill-x 620ms var(--ease-smooth) both; }
+@media (prefers-reduced-motion: reduce) { .fill-x { animation: none; } }
+
+/* The Urgent rail: a blue band on the sheet, and cards lit from the top left in blue, so the
+   most pressing work reads first and the plain white cards below read as the rest. */
+@utility ember-band {
+  border-radius: var(--radius-2xl);
+  background:
+    radial-gradient(120% 140% at 0% 0%, rgb(47 95 208 / 0.13), transparent 55%),
+    linear-gradient(180deg, rgb(47 95 208 / 0.07), rgb(47 95 208 / 0.025));
+  box-shadow: inset 0 0 0 1px rgb(47 95 208 / 0.16), inset 0 1px 0 rgb(255 255 255 / 0.7);
+}
+@utility surface-hot {
+  border-radius: var(--radius-xl);
+  background: linear-gradient(160deg, #ffefe6 0%, #fff7f2 38%, #ffffff 72%);
+  box-shadow: 0 0 0 1px rgb(47 95 208 / 0.24), 0 2px 4px rgb(39 83 190 / 0.06), 0 12px 26px -14px rgb(39 83 190 / 0.45);
+  @media (hover: hover) {
+    &.lift:hover { box-shadow: 0 0 0 1px rgb(47 95 208 / 0.34), 0 4px 8px rgb(39 83 190 / 0.08), 0 20px 40px -16px rgb(39 83 190 / 0.5); }
+  }
+}

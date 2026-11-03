@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "flow-set-up-your-chart",
+  "title": "Set up your chart",
+  "description": "A new member's first steps, from birth details to their chart and Today.",
+  "order": 1,
+  "auto": false,
+  "nodes": [
+    {
+      "frame": "onboarding/birth-details",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "frame": "chart/natal",
+      "x": 470,
+      "y": 0
+    },
+    {
+      "frame": "today/index",
+      "x": 940,
+      "y": 0
+    }
+  ]
+}

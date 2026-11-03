@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "name": "flow-compare-with-a-friend",
+  "title": "Compare with a friend",
+  "description": "Opening a compatibility reading with a friend from Today.",
+  "order": 3,
+  "auto": false,
+  "nodes": [
+    {
+      "frame": "today/index",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "frame": "friends/list",
+      "x": 470,
+      "y": 0
+    },
+    {
+      "frame": "compatibility/match",
+      "x": 940,
+      "y": 0
+    }
+  ]
+}

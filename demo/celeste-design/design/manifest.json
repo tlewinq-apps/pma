@@ -1,0 +1,127 @@
+{
+  "project": {
+    "name": "celeste-design"
+  },
+  "boards": [
+    {
+      "name": "flow-set-up-your-chart",
+      "title": "Set up your chart",
+      "description": "A new member's first steps, from birth details to their chart and Today."
+    },
+    {
+      "name": "flow-fix-birth-details",
+      "title": "Fix your birth details",
+      "description": "Correcting a birth time or place from the chart."
+    },
+    {
+      "name": "flow-compare-with-a-friend",
+      "title": "Compare with a friend",
+      "description": "Opening a compatibility reading with a friend from Today."
+    },
+    {
+      "name": "flow-start-a-trial",
+      "title": "Start a Plus trial",
+      "description": "Starting a Celeste Plus free trial from Today."
+    }
+  ],
+  "scenes": [
+    {
+      "name": "chart",
+      "frames": 1
+    },
+    {
+      "name": "compatibility",
+      "frames": 1
+    },
+    {
+      "name": "friends",
+      "frames": 1
+    },
+    {
+      "name": "journal",
+      "frames": 1
+    },
+    {
+      "name": "onboarding",
+      "frames": 1
+    },
+    {
+      "name": "plus",
+      "frames": 1
+    },
+    {
+      "name": "settings",
+      "frames": 1
+    },
+    {
+      "name": "today",
+      "frames": 1
+    }
+  ],
+  "frames": [
+    {
+      "id": "chart/natal",
+      "file": "design/scenes/chart/natal.tsx",
+      "kind": "tsx",
+      "scene": "chart",
+      "title": "Birth chart",
+      "description": "Chart wheel, the big three (Sun, Moon, Rising), placements, Share chart, Edit birth details"
+    },
+    {
+      "id": "compatibility/match",
+      "file": "design/scenes/compatibility/match.tsx",
+      "kind": "tsx",
+      "scene": "compatibility",
+      "title": "Compatibility",
+      "description": "You and a friend: which chart to use, the match in words, how you connect, strengths and what to watch for"
+    },
+    {
+      "id": "friends/list",
+      "file": "design/scenes/friends/list.tsx",
+      "kind": "tsx",
+      "scene": "friends",
+      "title": "Friends",
+      "description": "Friends with their sun signs; tap a friend to open a compatibility reading; Add a friend"
+    },
+    {
+      "id": "journal/entry",
+      "file": "design/scenes/journal/entry.tsx",
+      "kind": "tsx",
+      "scene": "journal",
+      "title": "Journal entry",
+      "description": "Today's moon phase, a mood, a note, Save entry; past entries listed by date"
+    },
+    {
+      "id": "onboarding/birth-details",
+      "file": "design/scenes/onboarding/birth-details.tsx",
+      "kind": "tsx",
+      "scene": "onboarding",
+      "title": "Birth details",
+      "description": "Date of birth, birth time with AM or PM, birth place, Continue; a small I don't know my birth time link"
+    },
+    {
+      "id": "plus/upgrade",
+      "file": "design/scenes/plus/upgrade.tsx",
+      "kind": "tsx",
+      "scene": "plus",
+      "title": "Celeste Plus",
+      "description": "What Plus adds, the free trial, Start free trial, Restore purchase"
+    },
+    {
+      "id": "settings/notifications",
+      "file": "design/scenes/settings/notifications.tsx",
+      "kind": "tsx",
+      "scene": "settings",
+      "title": "Notifications",
+      "description": "Daily horoscope push and the time it is sent, moon phase alerts, friend activity"
+    },
+    {
+      "id": "today/index",
+      "file": "design/scenes/today/index.tsx",
+      "kind": "tsx",
+      "scene": "today",
+      "title": "Today",
+      "description": "Daily horoscope for your sun sign, the moon phase, today's transits, Journal and Compare shortcuts"
+    }
+  ]
+}

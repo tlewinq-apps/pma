@@ -1,0 +1,72 @@
+{
+  "_metadata": {
+    "major_version": 2,
+    "minor_version": 1
+  },
+  "display_information": {
+    "name": "PMA",
+    "description": "Feedback in, proposals and mockups out.",
+    "background_color": "#2753be"
+  },
+  "features": {
+    "app_home": {
+      "home_tab_enabled": true,
+      "messages_tab_enabled": true,
+      "messages_tab_read_only_enabled": true
+    },
+    "bot_user": {
+      "display_name": "pma",
+      "always_online": true
+    },
+    "shortcuts": [
+      {
+        "name": "Send to PMA",
+        "type": "message",
+        "callback_id": "pma_send",
+        "description": "File this message as product feedback"
+      }
+    ]
+  },
+  "oauth_config": {
+    "redirect_urls": [
+      "https://YOUR-APP-URL/api/slack/oauth/callback"
+    ],
+    "scopes": {
+      "bot": [
+        "chat:write",
+        "channels:history",
+        "channels:read",
+        "channels:join",
+        "channels:manage",
+        "pins:write",
+        "users:read",
+        "users:read.email",
+        "commands",
+        "im:write",
+        "files:write",
+        "groups:read",
+        "groups:history",
+        "groups:write"
+      ]
+    }
+  },
+  "settings": {
+    "event_subscriptions": {
+      "request_url": "https://YOUR-APP-URL/api/slack/events",
+      "bot_events": [
+        "message.channels",
+        "message.groups",
+        "app_home_opened",
+        "app_uninstalled",
+        "tokens_revoked"
+      ]
+    },
+    "interactivity": {
+      "is_enabled": true,
+      "request_url": "https://YOUR-APP-URL/api/slack/interactions"
+    },
+    "org_deploy_enabled": false,
+    "socket_mode_enabled": false,
+    "token_rotation_enabled": false
+  }
+}

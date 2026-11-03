@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "name": "flow-fix-birth-details",
+  "title": "Fix your birth details",
+  "description": "Correcting a birth time or place from the chart.",
+  "order": 2,
+  "auto": false,
+  "nodes": [
+    {
+      "frame": "chart/natal",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "frame": "onboarding/birth-details",
+      "x": 470,
+      "y": 0
+    }
+  ]
+}

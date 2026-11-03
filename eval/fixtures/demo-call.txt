@@ -1,0 +1,15 @@
+Member: Hi, my name is Priya Nair. I am calling about the Celeste app, because I changed one thing in my birth details and now my whole chart is wrong.
+
+Staff: I am sorry about that. Can you walk me through what you did?
+
+Member: Sure. I opened Chart, tapped Edit birth details and fixed the spelling of my birth city. When I pressed Continue, my birth time had gone back to twelve noon. My rising sign flipped from Leo to Libra, and every reading since then has been about the wrong person.
+
+Staff: Did you get any confirmation or a warning before it saved?
+
+Member: Nothing at all. No warning, no summary of what changed. I only noticed because my friend compared our charts and said the reading made no sense.
+
+Staff: Understood, that does sound like the time was lost when you saved. I will flag it for the product team.
+
+Member: Thank you. There was one more thing, a smaller one. I would love to add my transits to my phone's calendar, so I can see a tricky day coming next to my work meetings.
+
+Staff: Noted, I will pass that along as well. Thanks for taking the time to call, Priya.

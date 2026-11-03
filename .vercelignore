@@ -1,0 +1,16 @@
+# Never upload local secrets, session cookies or build output to Vercel.
+.env*
+!.env.example
+e2e/.auth.json
+e2e/.auth/
+e2e/.fixtures.json
+.superpowers
+.claude
+.next
+node_modules
+supabase/.temp
+test-results
+playwright-report
+coverage
+*.tsbuildinfo
+.local-repos/

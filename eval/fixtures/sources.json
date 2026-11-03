@@ -1,0 +1,34 @@
+[
+  {
+    "id": "call",
+    "kind": "paste",
+    "author": "Maya Patel",
+    "channel": "Support call recording",
+    "occurred_at": "2026-09-10T15:00:00Z",
+    "raw_text": "Member: Hi, this is Maya Patel, I'm calling about my daily horoscope. Since I got back from a trip to Tokyo it arrives at three in the morning, even though I set it for eight.\n\nStaff: I am sorry to hear that. Can you walk me through what you tapped?\n\nMember: Sure. I opened Notifications and it still says Send at 8:00 am. I turned Daily horoscope off and on again, and it still comes at three. It wakes me up every night now.\n\nStaff: That does sound like the time zone did not update. Did anything else change after the trip?\n\nMember: Not that I noticed. But there is something else. I changed my birth place from Porto to Lisbon because my mum corrected me, and when I saved it my birth time went back to twelve noon. My rising sign changed from Virgo to Capricorn and I never touched the time.\n\nStaff: Understood, I will flag both for the product team. How did you notice the time had changed?\n\nMember: My compatibility readings suddenly read differently, so I checked my chart. I had to put the time back in by hand.\n\nStaff: That is good feedback, thank you. We will pass both of these along.\n\nMember: One more small thing, unrelated. The app has been feeling a bit slow to open lately, it takes a few seconds longer than it used to.\n\nStaff: Noted, I will pass that along too."
+  },
+  {
+    "id": "slack",
+    "kind": "slack",
+    "author": "Leo Martins",
+    "channel": "Slack #member-feedback",
+    "occurred_at": "2026-09-14T15:00:00Z",
+    "raw_text": "Leo Martins: Anyone else find comparing with a friend takes way too many taps? You go to Friends, find them, tap their name, then pick which chart to compare. Even the button on Today just drops you on the Friends list. I gave up halfway the first time.\n\nAna Souza: Same. I hunt through Friends every time I want a reading.\n\nChris Park: Also, does anyone actually know what Rising means? The chart says Rising in Virgo and nothing explains it. I had to look it up.\n\nLeo Martins: Ha, I had to look up Rising too. Separately, when I share my chart to Instagram the image cuts off the bottom, so my Moon sign isn't in the picture.\n\nAna Souza: Not the sharing, but I will say the daily reading is the best part of my morning. It feels written for me, not generic."
+  },
+  {
+    "id": "email",
+    "kind": "paste",
+    "author": "Sam Rivera",
+    "channel": "Email from member",
+    "occurred_at": "2026-09-17T15:00:00Z",
+    "raw_text": "From: Sam Rivera <sam.rivera@example.com>\nTo: Celeste Support <support@example.com>\nSubject: A few things after my first week\n\nHi there,\n\nI signed up last week and I'm enjoying Celeste, but a few things tripped me up.\n\nWhen I set up my chart I don't know my birth time, and I couldn't find any way to say so. I guessed 12:00, picked PM by mistake, and only afterwards spotted the small link under the Continue button.\n\nI started the free trial to see the monthly forecast, and nothing on the screen said it would turn into a yearly plan. I was charged $49.99 on day eight, which I wasn't expecting at all.\n\nAlso, completely separate note: I'd love to save a compatibility reading so I can come back to it. Right now it disappears when I leave the screen and I have to redo it every time.\n\nThanks,\nSam"
+  },
+  {
+    "id": "note",
+    "kind": "paste",
+    "author": "Member",
+    "channel": "Pasted note",
+    "occurred_at": "2026-09-20T15:00:00Z",
+    "raw_text": "Notes from this morning's member interviews, a few things came up more than once so I am writing them down before I forget.\n\nTwo members said they want to look back at what they wrote on past full moons, but the journal only lists entries by date, so they scroll for ages to find them.\n\nOne member journals every night and asked for a reminder on the evening of each full moon, because she always means to write a full moon entry and forgets.\n\nEveryone found the chart wheel beautiful, but nobody could say what the houses mean, and two people asked whether a house is the same as a sign.\n\nOn a positive note, three members mentioned that the moon phase on Today is the first thing they check every morning, they said it makes the app feel calm and personal."
+  }
+]

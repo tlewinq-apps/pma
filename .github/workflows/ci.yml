@@ -1,0 +1,23 @@
+# Typecheck, lint and the unit tests on every push to main and every pull request. The unit tests need no database
+# (tests/rls runs separately with `npm run test:rls` against a dev project).
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      # npm install, not npm ci: the lockfile is written on macOS, and npm ci on Linux rejects it over WASM-only
+      # optional packages it leaves out. Vercel installs the same way.
+      - run: npm install --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
